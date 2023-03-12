@@ -3,15 +3,20 @@ const dev = require("./config");
 
 const dbURl = dev.db.url;
 
-mongoose.connect(dbURl)
-    .then(() => {
+
+// Connect MongoDB at
+mongoose.set('strictQuery', true)
+mongoose.connect(dbURl, {
+    useNewUrlParser: true,
+}, (err) => {
+    if (!err) {
         console.info("=======================================================");
-        console.info("Database is connected.");
+        console.log('MongoDB Connection Succeeded.');
         console.info("=======================================================");
-    })
-    .catch((error) => {
+    } else {
         console.info("=======================================================");
-        console.dir(error);
+        console.dir('Error in DB connection: ' + err);
         console.info("=======================================================");
         process.exit(1);
-    });
+    }
+});
